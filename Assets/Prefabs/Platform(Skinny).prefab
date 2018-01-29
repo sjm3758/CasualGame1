@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 23634494489798098}
   - component: {fileID: 114518116522680344}
   m_Layer: 0
-  m_Name: Platform
+  m_Name: Platform(Skinny)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

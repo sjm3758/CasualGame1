@@ -9,9 +9,9 @@ public class ChangeColor : MonoBehaviour {
     public Color red;
     public Color green;
     public Color blue;
-    public Material redmat;
-    public Material greenmat;
-    public Material bluemat;
+    //public Material redmat;
+    //public Material greenmat;
+    //public Material bluemat;
     private Color[] colors;
     private Material[] mats;
     private int counter;
@@ -26,7 +26,7 @@ public class ChangeColor : MonoBehaviour {
         blue = new Color(0, 0, 255f, 1f);
         green = new Color(0, 255f, 0, 1f);
         colors = new Color[] { red, green, blue };
-        mats = new Material[] { redmat, greenmat, bluemat };
+        //mats = new Material[] { redmat, greenmat, bluemat };
     }
 	
 	// Update is called once per frame
@@ -37,6 +37,7 @@ public class ChangeColor : MonoBehaviour {
 
     public void CycleColor()
     {
+        #region Change color with RGB Keys
         /*if (Input.GetKeyDown(KeyCode.R))
         {
             gameobjectRenderer.material.color = red;
@@ -49,6 +50,7 @@ public class ChangeColor : MonoBehaviour {
         {
             gameobjectRenderer.material.color = green;
         }*/
+        #endregion
 
         //Change color by spacebar
         if (Input.GetKeyDown(KeyCode.Space))
@@ -56,15 +58,17 @@ public class ChangeColor : MonoBehaviour {
             gameobjectRenderer.material.color = colors[counter];
             counter++;
         }
-        if (counter >= colors.Length)
-        {
-            counter = 0;
-        }
 
         //Change color by switch in level
+
 
         //Change color by player jumping
 
 
+
+        if (counter >= colors.Length)
+        {
+            counter = 0;
+        }
     }
 }
