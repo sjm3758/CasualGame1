@@ -27,6 +27,7 @@ public class ChangeColor : MonoBehaviour {
         green = new Color(0, 255f, 0, 1f);
         colors = new Color[] { red, green, blue };
         //mats = new Material[] { redmat, greenmat, bluemat };
+        
     }
 	
 	// Update is called once per frame
@@ -60,8 +61,7 @@ public class ChangeColor : MonoBehaviour {
         }
 
         //Change color by switch in level
-
-
+        
         //Change color by player jumping
 
 
