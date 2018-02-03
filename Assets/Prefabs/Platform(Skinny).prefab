@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23204606045549890}
   - component: {fileID: 50515095233746526}
   - component: {fileID: 61216482533696848}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Platform(Skinny)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 2710c6df9801bca43ada8ad9040ad63b, type: 2}
+  - {fileID: 2100000, guid: 94796c320c226f5488cdbe7cc1a64911, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
