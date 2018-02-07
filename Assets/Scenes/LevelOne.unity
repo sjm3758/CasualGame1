@@ -302,7 +302,17 @@ Prefab:
     - target: {fileID: 50095084934037398, guid: b1f9feb221db01a4292c3bfa144c866b,
         type: 2}
       propertyPath: m_GravityScale
-      value: 1
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 50095084934037398, guid: b1f9feb221db01a4292c3bfa144c866b,
+        type: 2}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114264516173310946, guid: b1f9feb221db01a4292c3bfa144c866b,
+        type: 2}
+      propertyPath: speed
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b1f9feb221db01a4292c3bfa144c866b, type: 2}
