@@ -4,76 +4,79 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-    //player's speed
-    public float speed;
-    //keeps tarck of the player's starting location when they spawn into a level; helps with resetting location
-    private Vector3 startLocation;
-    //temp variable for adjusting the player's location in Move()
-    private Vector3 pos;
-    //the gamemanager in the scene (used to get materials)
-    public GameObject gamemanager;
+    public float speed = 5.0f;
+    public float jumpForce = 15.0f;
+    public bool facingRight = true;
+    public bool grounded = false;
+    public float deltaX;
+    public float maxXSpeed = 10.0f;
+    private SpriteRenderer spriteRenderer;
+    private Animator animator;
 
     // Use this for initialization
     void Start () {
-        speed = 5.0f;
-        startLocation = this.gameObject.GetComponent<Transform>().position;
-        gamemanager = GameObject.Find("GameManager");
-    }
+
+	}
 	
 	// Update is called once per frame
 	void Update () {
         Move();
-        this.gameObject.GetComponent<Transform>().position = pos;
-    }
+	}
 
-    //what should happen when the player collides with any object in the scene
     void OnCollisionEnter2D(Collision2D collision)
     {
-        //player changes to the switch's color
+        //Debug.Log("switch");
         if (collision.gameObject.tag == "Switch")
         {
             this.gameObject.GetComponent<MeshRenderer>().material = collision.gameObject.GetComponent<MeshRenderer>().material;
+            Debug.Log("switch hit!");
         }
-        //if player is on a platform, kill them if they are not the right color (excluding neutral color)
-        if (collision.gameObject.tag == "Platform")
-        {
-            if ((collision.gameObject.GetComponent<MeshRenderer>().material.color != this.gameObject.GetComponent<MeshRenderer>().material.color) && (collision.gameObject.GetComponent<MeshRenderer>().material.color != gamemanager.GetComponent<Materials>().neutral.color))
-            {
-                Death();
-            }
-        }
+
+        grounded = true;
     }
 
-    //moves the player left and right across the scene
     void Move()
     {
-        pos = this.gameObject.GetComponent<Transform>().position;
+        Vector3 pos = this.gameObject.GetComponent<Transform>().position;
+        Vector2 velocity = this.gameObject.GetComponent<Rigidbody2D>().velocity;
         //move right
-        if (Input.GetKey(KeyCode.D))
+        //if (Input.GetKey(KeyCode.D))
+        //{
+        //    velocity.x += speed * Time.deltaTime;
+        //}
+        ////move left
+        //if (Input.GetKey(KeyCode.A))
+        //{
+        //    velocity.x -= speed * Time.deltaTime;
+        //}
+        //MOVE LEFT/RIGHT
+        deltaX = Input.GetAxis("Horizontal");
+        //decelerate
+        //if (Mathf.Abs(velocity.x) > 0.0f)
+        //{
+        //    velocity.x *= 0.9f;
+        //    //if (Mathf.Abs(velocity.x) < 0) velocity.x = 0;
+        //}
+        //jump
+        if (Input.GetKey(KeyCode.Space))
         {
-            pos.x += speed * Time.deltaTime;
+            if (grounded)
+            {
+                velocity.y = jumpForce;
+                grounded = false;
+            }
         }
-        //move left
-        if (Input.GetKey(KeyCode.A))
-        {
-            pos.x -= speed * Time.deltaTime;
-        }
+
+        this.gameObject.GetComponent<Transform>().position = pos;
+        this.gameObject.GetComponent<Rigidbody2D>().velocity = velocity;
+        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(deltaX * speed, velocity.y);
     }
 
-    //resets the player's location to their starting position in the level (does not reset level, just the player)
-    void Death()
+    void TurnAround()
     {
-        //sets the color to white (no color)
-        this.gameObject.GetComponent<MeshRenderer>().material = gamemanager.GetComponent<Materials>().white;
-        this.gameObject.GetComponent<Transform>().position = startLocation;
-        //resets the objects velocity so that the object's previous state of gravity and speed (before death) has no effect on them afterwards
-        this.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-    }
-
-    //resets the player with Death() if they are out of the map/off-screen (if return = true)
-    bool OutOfBounds()
-    {
-        bool oob = false;
-        return oob;
+        facingRight = !facingRight;
+        Vector2 localScale = gameObject.transform.localScale;
+        localScale.x *= -1;
+        transform.localScale = localScale;
     }
 }
