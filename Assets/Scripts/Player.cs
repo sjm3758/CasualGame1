@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-    public float speed = 5.0f;
-    public float jumpForce = 15.0f;
+    public float speed = 15.0f;
+    public float jumpForce = 13.0f;
     public bool facingRight = true;
     public bool grounded = false;
     public float deltaX;
@@ -15,7 +15,7 @@ public class Player : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
+        
 	}
 	
 	// Update is called once per frame
@@ -40,17 +40,20 @@ public class Player : MonoBehaviour {
         Vector3 pos = this.gameObject.GetComponent<Transform>().position;
         Vector2 velocity = this.gameObject.GetComponent<Rigidbody2D>().velocity;
         //move right
+        //float moveForce = speed;
         //if (Input.GetKey(KeyCode.D))
         //{
-        //    velocity.x += speed * Time.deltaTime;
+        //    this.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(speed, 0), ForceMode2D.Impulse);
         //}
         ////move left
         //if (Input.GetKey(KeyCode.A))
         //{
-        //    velocity.x -= speed * Time.deltaTime;
+        //    this.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(-speed, 0), ForceMode2D.Impulse);
         //}
         //MOVE LEFT/RIGHT
         deltaX = Input.GetAxis("Horizontal");
+        
+
         //decelerate
         //if (Mathf.Abs(velocity.x) > 0.0f)
         //{
