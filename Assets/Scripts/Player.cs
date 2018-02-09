@@ -29,7 +29,6 @@ public class Player : MonoBehaviour {
         if (collision.gameObject.tag == "Switch")
         {
             this.gameObject.GetComponent<MeshRenderer>().material = collision.gameObject.GetComponent<MeshRenderer>().material;
-            Debug.Log("switch hit!");
         }
 
         grounded = true;
