@@ -1,42 +1,77 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
+    //keeps tarck of the player's starting location when they spawn into a level; helps with resetting location
+    private Vector3 startLocation;
+    //temp variable for adjusting the player's location in Move()
+    private Vector3 pos;
+    //the gamemanager in the scene (used to get materials)
+    public GameObject gamemanager;
     private float speed = 5.0f;
-    private float jumpForce = 6.0f;
+    private float jumpForce = 5.5f;
     private bool facingRight = true;
     private bool grounded = false;
     private float deltaX;
     private float maxXSpeed = 10.0f;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
+    private int currentLevel;
 
     // Use this for initialization
     void Start () {
-
-	}
+        startLocation = this.gameObject.GetComponent<Transform>().position;
+        gamemanager = GameObject.Find("GameManager");
+        currentLevel = gamemanager.GetComponent<Info>().level;
+    }
 	
 	// Update is called once per frame
 	void Update () {
         Move();
 	}
 
+
+    //what should happen when the player collides with any object in the scene
     void OnCollisionEnter2D(Collision2D collision)
     {
-        //Debug.Log("switch");
+        //player changes to the switch's color
         if (collision.gameObject.tag == "Switch")
         {
             this.gameObject.GetComponent<MeshRenderer>().material = collision.gameObject.GetComponent<MeshRenderer>().material;
         }
-
+        //if player is on a platform, kill them if they are not the right color (excluding neutral color)
+        if (collision.gameObject.tag == "Platform")
+        {
+            if ((collision.gameObject.GetComponent<MeshRenderer>().material.color != this.gameObject.GetComponent<MeshRenderer>().material.color) && (collision.gameObject.GetComponent<MeshRenderer>().material.color != gamemanager.GetComponent<Info>().neutral.color))
+            {
+                Death();
+            }
+        }
+        //hard-coding level loading based on what the current level is. Should probably fix this later :/
+        if (collision.gameObject.tag=="Goal")
+        {
+            if (currentLevel == 1)
+            {
+                SceneManager.LoadScene("LevelTwo");
+            }
+            if (currentLevel == 2)
+            {
+                SceneManager.LoadScene("LevelThree");
+            }
+            if (currentLevel == 3)
+            {
+                SceneManager.LoadScene("Winner");
+            }
+        }
         grounded = true;
     }
 
     void Move()
     {
-        Vector3 pos = this.gameObject.GetComponent<Transform>().position;
+        pos = this.gameObject.GetComponent<Transform>().position;
         Vector2 velocity = this.gameObject.GetComponent<Rigidbody2D>().velocity;
         //move right
         //if (Input.GetKey(KeyCode.D))
@@ -78,4 +113,22 @@ public class Player : MonoBehaviour {
         localScale.x *= -1;
         transform.localScale = localScale;
     }
+
+    //resets the player's location to their starting position in the level (does not reset level, just the player)
+    void Death()
+    {
+        //sets the color to white (no color)
+        this.gameObject.GetComponent<MeshRenderer>().material = gamemanager.GetComponent<Info>().white;
+        this.gameObject.GetComponent<Transform>().position = startLocation;
+        //resets the objects velocity so that the object's previous state of gravity and speed (before death) has no effect on them afterwards
+        this.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+    }
+
+    //resets the player with Death() if they are out of the map/off-screen (if return = true)
+    bool OutOfBounds()
+    {
+        bool oob = false;
+        return oob;
+    }
+
 }

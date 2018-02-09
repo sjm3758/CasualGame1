@@ -220,7 +220,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\ChangeColor.cs" />
-    <Compile Include="Assets\Scripts\Materials.cs" />
+    <Compile Include="Assets\Scripts\Info.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\stuff.cs" />
     <Compile Include="Assets\Scripts\TutorialPlatform.cs" />
