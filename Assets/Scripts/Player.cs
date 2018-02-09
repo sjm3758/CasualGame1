@@ -5,11 +5,11 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     private float speed = 5.0f;
-    public float jumpForce = 15.0f;
-    public bool facingRight = true;
-    public bool grounded = false;
-    public float deltaX;
-    public float maxXSpeed = 10.0f;
+    private float jumpForce = 6.0f;
+    private bool facingRight = true;
+    private bool grounded = false;
+    private float deltaX;
+    private float maxXSpeed = 10.0f;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
 
