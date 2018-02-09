@@ -93,6 +93,16 @@ public class Player : MonoBehaviour {
         //    //if (Mathf.Abs(velocity.x) < 0) velocity.x = 0;
         //}
         //jump
+
+        //flip the player sprite
+        if(deltaX < 0.0f && !facingRight)
+        {
+            TurnAround();
+        }
+        else if(deltaX > 0.0f && facingRight)
+        {
+            TurnAround();
+        }
         if (Input.GetKey(KeyCode.Space))
         {
             if (grounded)
