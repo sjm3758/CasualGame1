@@ -13,7 +13,7 @@ public class Player : MonoBehaviour {
     public GameObject gamemanager;
     private float speed = 5.0f;
     private float jumpForce = 5.5f;
-    private bool facingRight = true;
+    private bool facingRight = false;
     private bool grounded = false;
     private float killZone = 40.0f;
     private float deltaX;
