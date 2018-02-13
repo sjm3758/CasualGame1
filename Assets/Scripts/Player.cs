@@ -13,8 +13,9 @@ public class Player : MonoBehaviour {
     public GameObject gamemanager;
     private float speed = 5.0f;
     private float jumpForce = 5.5f;
-    private bool facingRight = true;
+    private bool facingRight = false;
     private bool grounded = false;
+    private float killZone = 40.0f;
     private float deltaX;
     private float maxXSpeed = 10.0f;
     private SpriteRenderer spriteRenderer;
@@ -92,6 +93,16 @@ public class Player : MonoBehaviour {
         //    //if (Mathf.Abs(velocity.x) < 0) velocity.x = 0;
         //}
         //jump
+
+        //flip the player sprite
+        if(deltaX < 0.0f && !facingRight)
+        {
+            TurnAround();
+        }
+        else if(deltaX > 0.0f && facingRight)
+        {
+            TurnAround();
+        }
         if (Input.GetKey(KeyCode.Space))
         {
             if (grounded)
@@ -99,6 +110,13 @@ public class Player : MonoBehaviour {
                 velocity.y = jumpForce;
                 grounded = false;
             }
+        }
+
+        //reset position if out of bounds
+        if (OutOfBounds())
+        {
+            pos = startLocation;
+            velocity = new Vector2(0, 0);
         }
 
         this.gameObject.GetComponent<Transform>().position = pos;
@@ -128,6 +146,13 @@ public class Player : MonoBehaviour {
     bool OutOfBounds()
     {
         bool oob = false;
+        //if out of bounds, set oob to true
+        //get position, compare it to killzone
+        Vector2 pos = this.gameObject.GetComponent<Rigidbody2D>().position;
+        if(Mathf.Abs(pos.x) > killZone || Mathf.Abs(pos.y) > killZone)
+        {
+            oob = true;
+        }
         return oob;
     }
 
