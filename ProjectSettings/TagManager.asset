@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Switch
   - Platform
+  - Goal
   layers:
   - Default
   - TransparentFX
