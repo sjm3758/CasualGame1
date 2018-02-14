@@ -23,6 +23,8 @@ public class ColorWheelRotate : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             animator.SetTrigger("Change Color");
+
+            //test
             
         }
         else
