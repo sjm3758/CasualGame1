@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
     private float maxXSpeed = 10.0f;
 
     public GameObject walkO, walkF, standO, standF, jumpO, jumpF;
+    public string color;
     private SpriteRenderer srOutline, srFill;
     private Sprite outline, fill;
     private Animator animator;
@@ -33,6 +34,7 @@ public class Player : MonoBehaviour {
         startLocation = this.gameObject.GetComponent<Transform>().position;
         gamemanager = GameObject.Find("GameManager");
         currentLevel = gamemanager.GetComponent<Info>().level;
+        color = "#FFFFFF";
     }
 	
 	// Update is called once per frame
@@ -48,6 +50,8 @@ public class Player : MonoBehaviour {
         //player changes to the switch's color
         if (collision.gameObject.tag == "Switch")
         {
+            //get color of object
+            //string newColorMat = collision.gameObject.GetComponent<MeshRenderer>().material.ToString();
             this.gameObject.GetComponent<MeshRenderer>().material = collision.gameObject.GetComponent<MeshRenderer>().material;
         }
         //if player is on a platform, kill them if they are not the right color (excluding neutral color)
