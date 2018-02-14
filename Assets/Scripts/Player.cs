@@ -18,8 +18,14 @@ public class Player : MonoBehaviour {
     private float killZone = 40.0f;
     private float deltaX;
     private float maxXSpeed = 10.0f;
-    private SpriteRenderer spriteRenderer;
+
+    public GameObject walkO, walkF, standO, standF, jumpO, jumpF;
+    private SpriteRenderer srOutline, srFill;
+    private Sprite outline, fill;
     private Animator animator;
+
+    //sprites to animate
+
     private int currentLevel;
 
     // Use this for initialization
@@ -32,6 +38,7 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Move();
+        RenderSprites();
 	}
 
 
@@ -124,12 +131,47 @@ public class Player : MonoBehaviour {
         gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(deltaX * speed, velocity.y);
     }
 
+    void RenderSprites()
+    {
+        //turn off all sprites, then activate the appropriate one
+        walkO.SetActive(true);
+        walkF.SetActive(true);
+        standO.SetActive(true);
+        standF.SetActive(true);
+        jumpO.SetActive(true);
+        jumpF.SetActive(true);
+        //if in the air, render jump sprite
+        if (!grounded)
+        {
+            standO.SetActive(false);
+            standF.SetActive(false);
+            walkO.SetActive(false);
+            walkF.SetActive(false);
+        }
+        //if moving on the ground, render walk sprite
+        else if (Mathf.Abs(deltaX) > 0)
+        {
+            jumpO.SetActive(false);
+            jumpF.SetActive(false);
+            standO.SetActive(false);
+            standF.SetActive(false);
+        }
+        //if motionless, render idle sprite
+        else
+        {
+            jumpO.SetActive(false);
+            jumpF.SetActive(false);
+            walkO.SetActive(false);
+            walkF.SetActive(false);
+        }
+    }
+
     void TurnAround()
     {
         facingRight = !facingRight;
         Vector2 localScale = gameObject.transform.localScale;
         localScale.x *= -1;
-        transform.localScale = localScale;
+        this.transform.localScale = localScale;
     }
 
     //resets the player's location to their starting position in the level (does not reset level, just the player)
