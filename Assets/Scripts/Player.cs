@@ -12,18 +12,18 @@ public class Player : MonoBehaviour {
     //the gamemanager in the scene (used to get materials)
     public GameObject gamemanager;
     private float speed = 5.0f;
-    private float jumpForce = 5.5f;
+    private float jumpForce = 5.7f;
     private bool facingRight = true;
     private bool grounded = false;
-    private float killZone = 40.0f;
+    private float killZone = 20.0f;
     private float deltaX;
     private float maxXSpeed = 10.0f;
 
     public GameObject walkO, walkF, standO, standF, jumpO, jumpF;
-    public string color;
-    private SpriteRenderer srOutline, srFill;
+    //public string color;
+    /*private SpriteRenderer srOutline, srFill;
     private Sprite outline, fill;
-    private Animator animator;
+    private Animator animator;*/
 
     //sprites to animate
 
@@ -34,14 +34,19 @@ public class Player : MonoBehaviour {
         startLocation = this.gameObject.GetComponent<Transform>().position;
         gamemanager = GameObject.Find("GameManager");
         currentLevel = gamemanager.GetComponent<Info>().level;
-        color = "#FFFFFF";
+        //color = "#FFFFFF";
     }
 	
 	// Update is called once per frame
 	void Update () {
         Move();
         RenderSprites();
-	}
+        //reset position if out of bounds
+        if (OutOfBounds())
+        {
+            Death();
+        }
+    }
 
 
     //what should happen when the player collides with any object in the scene
@@ -52,12 +57,25 @@ public class Player : MonoBehaviour {
         {
             //get color of object
             //string newColorMat = collision.gameObject.GetComponent<MeshRenderer>().material.ToString();
+            //this.gameObject.GetComponent<MeshRenderer>().material = collision.gameObject.GetComponent<MeshRenderer>().material;
             this.gameObject.GetComponent<MeshRenderer>().material = collision.gameObject.GetComponent<MeshRenderer>().material;
+
+            walkF.GetComponent<SpriteRenderer>().material.color = collision.gameObject.GetComponent<MeshRenderer>().material.color;
+            standF.GetComponent<SpriteRenderer>().material.color = collision.gameObject.GetComponent<MeshRenderer>().material.color;
+            jumpF.GetComponent<SpriteRenderer>().material.color = collision.gameObject.GetComponent<MeshRenderer>().material.color;
         }
         //if player is on a platform, kill them if they are not the right color (excluding neutral color)
         if (collision.gameObject.tag == "Platform")
         {
-            if ((collision.gameObject.GetComponent<MeshRenderer>().material.color != this.gameObject.GetComponent<MeshRenderer>().material.color) && (collision.gameObject.GetComponent<MeshRenderer>().material.color != gamemanager.GetComponent<Info>().neutral.color))
+            if ((collision.gameObject.GetComponent<MeshRenderer>().material.color != standF.GetComponent<SpriteRenderer>().material.color) && (collision.gameObject.GetComponent<MeshRenderer>().material.color != gamemanager.GetComponent<Info>().neutral.color))
+            {
+                Death();
+            }
+            if ((collision.gameObject.GetComponent<MeshRenderer>().material.color != walkF.GetComponent<SpriteRenderer>().material.color) && (collision.gameObject.GetComponent<MeshRenderer>().material.color != gamemanager.GetComponent<Info>().neutral.color))
+            {
+                Death();
+            }
+            if ((collision.gameObject.GetComponent<MeshRenderer>().material.color != jumpF.GetComponent<SpriteRenderer>().material.color) && (collision.gameObject.GetComponent<MeshRenderer>().material.color != gamemanager.GetComponent<Info>().neutral.color))
             {
                 Death();
             }
@@ -123,12 +141,7 @@ public class Player : MonoBehaviour {
             }
         }
 
-        //reset position if out of bounds
-        if (OutOfBounds())
-        {
-            pos = startLocation;
-            velocity = new Vector2(0, 0);
-        }
+        
 
         this.gameObject.GetComponent<Transform>().position = pos;
         this.gameObject.GetComponent<Rigidbody2D>().velocity = velocity;
@@ -182,7 +195,9 @@ public class Player : MonoBehaviour {
     void Death()
     {
         //sets the color to white (no color)
-        this.gameObject.GetComponent<MeshRenderer>().material = gamemanager.GetComponent<Info>().white;
+        walkF.GetComponent<SpriteRenderer>().material.color = gamemanager.GetComponent<Info>().white.color;
+        standF.GetComponent<SpriteRenderer>().material.color = gamemanager.GetComponent<Info>().white.color;
+        jumpF.GetComponent<SpriteRenderer>().material.color = gamemanager.GetComponent<Info>().white.color;
         this.gameObject.GetComponent<Transform>().position = startLocation;
         //resets the objects velocity so that the object's previous state of gravity and speed (before death) has no effect on them afterwards
         this.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
