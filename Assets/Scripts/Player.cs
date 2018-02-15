@@ -13,13 +13,20 @@ public class Player : MonoBehaviour {
     public GameObject gamemanager;
     private float speed = 5.0f;
     private float jumpForce = 5.5f;
-    private bool facingRight = false;
+    private bool facingRight = true;
     private bool grounded = false;
     private float killZone = 40.0f;
     private float deltaX;
     private float maxXSpeed = 10.0f;
-    private SpriteRenderer spriteRenderer;
+
+    public GameObject walkO, walkF, standO, standF, jumpO, jumpF;
+    public string color;
+    private SpriteRenderer srOutline, srFill;
+    private Sprite outline, fill;
     private Animator animator;
+
+    //sprites to animate
+
     private int currentLevel;
 
     // Use this for initialization
@@ -27,11 +34,13 @@ public class Player : MonoBehaviour {
         startLocation = this.gameObject.GetComponent<Transform>().position;
         gamemanager = GameObject.Find("GameManager");
         currentLevel = gamemanager.GetComponent<Info>().level;
+        color = "#FFFFFF";
     }
 	
 	// Update is called once per frame
 	void Update () {
         Move();
+        RenderSprites();
 	}
 
 
@@ -41,6 +50,8 @@ public class Player : MonoBehaviour {
         //player changes to the switch's color
         if (collision.gameObject.tag == "Switch")
         {
+            //get color of object
+            //string newColorMat = collision.gameObject.GetComponent<MeshRenderer>().material.ToString();
             this.gameObject.GetComponent<MeshRenderer>().material = collision.gameObject.GetComponent<MeshRenderer>().material;
         }
         //if player is on a platform, kill them if they are not the right color (excluding neutral color)
@@ -124,12 +135,47 @@ public class Player : MonoBehaviour {
         gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(deltaX * speed, velocity.y);
     }
 
+    void RenderSprites()
+    {
+        //turn off all sprites, then activate the appropriate one
+        walkO.SetActive(true);
+        walkF.SetActive(true);
+        standO.SetActive(true);
+        standF.SetActive(true);
+        jumpO.SetActive(true);
+        jumpF.SetActive(true);
+        //if in the air, render jump sprite
+        if (!grounded)
+        {
+            standO.SetActive(false);
+            standF.SetActive(false);
+            walkO.SetActive(false);
+            walkF.SetActive(false);
+        }
+        //if moving on the ground, render walk sprite
+        else if (Mathf.Abs(deltaX) > 0)
+        {
+            jumpO.SetActive(false);
+            jumpF.SetActive(false);
+            standO.SetActive(false);
+            standF.SetActive(false);
+        }
+        //if motionless, render idle sprite
+        else
+        {
+            jumpO.SetActive(false);
+            jumpF.SetActive(false);
+            walkO.SetActive(false);
+            walkF.SetActive(false);
+        }
+    }
+
     void TurnAround()
     {
         facingRight = !facingRight;
         Vector2 localScale = gameObject.transform.localScale;
         localScale.x *= -1;
-        transform.localScale = localScale;
+        this.transform.localScale = localScale;
     }
 
     //resets the player's location to their starting position in the level (does not reset level, just the player)
