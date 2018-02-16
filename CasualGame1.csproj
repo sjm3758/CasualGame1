@@ -223,6 +223,7 @@
     <Compile Include="Assets\Scripts\ButtonLoadScene1.cs" />
     <Compile Include="Assets\Scripts\ButtonLoadScene2.cs" />
     <Compile Include="Assets\Scripts\ButtonLoadSceneSelect.cs" />
+    <Compile Include="Assets\Scripts\ButtonQuit.cs" />
     <Compile Include="Assets\Scripts\ChangeColor.cs" />
     <Compile Include="Assets\Scripts\ColorWheelRotate.cs" />
     <Compile Include="Assets\Scripts\Info.cs" />
