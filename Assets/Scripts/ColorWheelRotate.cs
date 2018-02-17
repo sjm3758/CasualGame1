@@ -6,10 +6,14 @@ public class ColorWheelRotate : MonoBehaviour {
 
     private Animator animator;
     private Component[] spriteColor;
+    private Color targetColor;
+    private GameObject target;
 
 	// Use this for initialization
 	void Start () {
         spriteColor = GetComponentsInChildren<SpriteRenderer>();
+        target = GameObject.Find("Circle Draft.png' (1)");
+        targetColor = target.GetComponent<SpriteRenderer>().color;
     }
 
     private void Awake()
@@ -36,20 +40,20 @@ public class ColorWheelRotate : MonoBehaviour {
 
     public void WheelColorChange()
     {
-        foreach (SpriteRenderer color in spriteColor)
-        {
-            if (color.color == Color.red)
+            foreach (SpriteRenderer color in spriteColor)
             {
-                color.color = Color.blue;
+                if (color.color == Color.red)
+                {
+                    color.color = Color.blue;
+                }
+                else if (color.color == Color.blue)
+                {
+                    color.color = Color.green;
+                }
+                else if (color.color == Color.green)
+                {
+                    color.color = Color.red;
+                }
             }
-            else if (color.color == Color.blue)
-            {
-                color.color = Color.green;
-            }
-            else if (color.color == Color.green)
-            {
-                color.color = Color.red;
-            }
-        }
     }
 }
