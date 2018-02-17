@@ -219,10 +219,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\ButtonLoadScene.cs" />
+    <Compile Include="Assets\Scripts\ButtonLoadScene1.cs" />
+    <Compile Include="Assets\Scripts\ButtonLoadScene2.cs" />
+    <Compile Include="Assets\Scripts\ButtonLoadSceneSelect.cs" />
+    <Compile Include="Assets\Scripts\ButtonQuit.cs" />
     <Compile Include="Assets\Scripts\ChangeColor.cs" />
     <Compile Include="Assets\Scripts\ColorWheelRotate.cs" />
     <Compile Include="Assets\Scripts\Info.cs" />
     <Compile Include="Assets\Scripts\Materials.cs" />
+    <Compile Include="Assets\Scripts\new stuff.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\stuff.cs" />
     <Compile Include="Assets\Scripts\TutorialPlatform.cs" />
